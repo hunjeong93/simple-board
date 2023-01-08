@@ -1,5 +1,7 @@
 package com.codestates.answer.entity;
 
+import com.codestates.audit.Auditable;
+import com.codestates.question.entity.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,14 +13,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Answer {
+public class Answer extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
-    private LocalDateTime localDateTime; //등록날짜?
-
+    @Column(nullable = false)
     private String content;
+    @OneToOne(mappedBy = "answer")
+    private Question question;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
